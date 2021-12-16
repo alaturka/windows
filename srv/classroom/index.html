@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!-- Code taken from https://webdevtrick.com/javascript-copy-to-clipboard/ -->
+<html lang="tr" >
+<head>
+  <meta charset="UTF-8">
+  <title>Classroom Çalışma Ortamı Kurulumu</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: "Open Sans", Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+			color: #333;
+    }
+		.content {
+			text-align: left;
+			width: 720px;
+			margin: 0 auto;
+		}
+    .done {
+      position: absolute;
+      left: 0; top: 0; right: 0;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-4em);
+      color: #000;
+      transition: all .500s;
+    }
+    .copied .done {
+      opacity: 1;
+      transform: translateY(4em);
+    }
+    h1 {
+      margin: 1.75em auto 1.25em;
+    }
+    textarea,
+    button {
+      font-size: 1em;
+      font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    }
+    textarea {
+      display: block;
+      width: 700px;
+      max-width: 85%;
+      height: 55px;
+      margin: 2em auto 1.5em;
+      background: #dedede;
+      border: 1px solid #ddd;
+      padding: 10px 10px;
+      resize: none;
+      overflow: hidden;
+      font-family: Monaco, Consolas, "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace;
+      font-size: 1.1em;
+    }
+
+    [id="empty-field"] {
+      margin-top: 3em;
+    }
+    textarea:focus {
+      border-color: red;
+    }
+    button {
+      position: relative;
+      padding: 8px 20px;
+      border: 0;
+      font-size: 0.835em;
+      text-transform: uppercase;
+      letter-spacing: 0.125em;
+      font-weight: bold;
+      color: #FFF;
+      background: #e60023;
+      transition: background .275s;
+    	margin: 0 auto;
+    	display: block;
+    }
+    button:hover,
+    button:focus {
+      background: #212121;
+    }
+
+    img.gif {
+      width: 700px;
+      height: auto;
+      padding: 10px 10px;
+    }
+
+		.step {
+			padding-bottom: 40px;
+		}
+
+    .step a {
+      position:relative;
+      outline: none;
+      text-decoration: none;
+      padding: 2px 1px 0;
+    }
+    .step a:link {
+      color: #CC5500;
+      border-bottom: 1px dashed;
+    }
+    .step a span {
+      position:absolute;
+      display:none;
+      z-index:99;
+    }
+    .step a:hover span {
+      display:inline-block;
+    }
+
+    span.blue {
+      background: #5178D0;
+      border-radius: 0.8em;
+      -moz-border-radius: 0.8em;
+      -webkit-border-radius: 0.8em;
+      color: #ffffff;
+      display: inline-block;
+      font-weight: bold;
+      line-height: 1.6em;
+      margin-right: 15px;
+      text-align: center;
+      width: 1.6em; 
+    }
+
+    span.red {
+      background: red;
+      border-radius: 0.8em;
+      -moz-border-radius: 0.8em;
+      -webkit-border-radius: 0.8em;
+      color: #ffffff;
+      display: inline-block;
+      font-weight: bold;
+      line-height: 1.6em;
+      margin-right: 15px;
+      text-align: center;
+      width: 1.6em; 
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Classroom Çalışma Ortamı Kurulumu</h1>
+
+  <div class="content">
+    <p>
+      Kurulum için sorunsuz bir ağ bağlantısı ve Powershell (sürüm 5) kurulu
+        görece yeni <strong>Windows 10</strong> veya üstü (ör. Windows 11) bir
+        sistem gerekir. Kurulum boyunca 1 GB civarında veri indirilecektir.
+        Lütfen önce bu koşulları sağladığınıza emin olun ve yavaş bir ağ
+        bağlantısına sahipseniz kurulumun uzun sürebileceğini göz önünde
+        bulundurun. 
+    </p>
+
+    <div class="step">
+      <span class="blue">1</span> "Powershell Terminali"ni <strong>yönetici izniyle</strong> <strong><a href="#">açın<span>
+      <img class="gif" alt="powershell" src="/assets/powershell.gif"/></span></a></strong>, aşağıdaki kodu kopyala/yapıştırarak çalıştırın
+
+    	<textarea readonly class="copy-text" spellcheck="false">Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; iwr -useb https://get.omu.sh/classroom | iex</textarea>
+
+    	<button class="copy" type="button">
+      	Kopyala<span class="done" aria-hidden="true">Kopyalandı</span>
+    	</button>
+
+      <p>
+        <span class="red">!</span> Sorun çıkarsa işlemi tekrar edin, hala devam ediyorsa ekran görüntüsüyle <a
+            href="https://github.com/alaturka/windows/issues/new?template=bug.yml">sorunu bildirin</a>
+      </p>
+    </div>
+
+		<div class="step">
+      <span class="blue">2</span> <strong>Önceki adım hatasız tamamlanmışsa</strong> bilgisayarınızı yeniden başlatın
+		</div>
+
+		<div class="step">
+      <span class="blue">3</span> "Windows Terminali"ni <strong><a href="#">açın<span>
+      <img class="gif" alt="windowsterminal" src="/assets/windowsterminal.gif"/></span></a></strong>, aşağıdaki kodu kopyala/yapıştırarak çalıştırın
+
+    	<textarea readonly class="copy-text" spellcheck="false">classroom install</textarea>
+
+    	<button class="copy" type="button">
+      	Kopyala<span class="done" aria-hidden="true">Kopyalandı</span>
+    	</button>
+
+      <p>
+        <span class="red">!</span> Sorun çıkarsa işlemi tekrar edin, hala devam ediyorsa ekran görüntüsüyle <a
+            href="https://github.com/alaturka/windows/issues/new?template=bug.yml">sorunu bildirin</a>
+      </p>
+      <p>
+        <span class="blue">!</span> Gelecekte yapılabilecek güncellemeler için bu adımı tekrarlayacağınızı not edin
+      </p>
+		</div>
+   </div>
+
+  <script>
+    var buttons = document.getElementsByClassName('copy'),
+        texts  = document.getElementsByClassName('copy-text')
+
+    if (buttons.length == texts.length) {
+      for(let i = 0; i < buttons.length; i++) {
+        let button = buttons[i], text = texts[i]
+
+        button.addEventListener('click', function() {
+          text.select()
+
+          if (document.execCommand('copy')) {
+            button.classList.add('copied')
+
+            var temp = setInterval(function() {
+              button.classList.remove('copied')
+              clearInterval(temp)
+            }, 600)
+          } else {
+            console.info('document.execCommand went wrong…')
+          }
+
+          return false
+        })
+      }
+    } else {
+      console.info("Number of copy buttons and text areas doesn't match…")
+    }
+  </script>
+</body>
+</html>
+<!-- vim: set et ts=2 sts=2 sw=2: -->

@@ -1,0 +1,30 @@
+[
+  {
+    "source": "lib/support.ps1",
+    "series": [
+      {
+        "directive": "... . support\n",
+        "insertion": {
+          "before": 343,
+          "after": 477,
+          "signature": "# Adapted from https://gist.github.com/yoav-lavi/1253321d968db7f52d1a77ac48e3ff96\n",
+          "digest": "fcd4e43fe1249a9dcd4022f79ab01c920a9a199f6f5721f7a39fc6b98304ae19"
+        }
+      }
+    ]
+  },
+  {
+    "source": "libexec/bootstrap/classroom.ps1",
+    "series": [
+      {
+        "directive": "... . bootstrap\n",
+        "insertion": {
+          "before": 394,
+          "after": 185,
+          "signature": "    [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)\n",
+          "digest": "04c050a71c1e024758e165099c47b5926f992a21648df01335be05cb860de717"
+        }
+      }
+    ]
+  }
+]

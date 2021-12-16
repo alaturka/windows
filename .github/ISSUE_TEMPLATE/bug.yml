@@ -1,0 +1,40 @@
+name: Hata Bildirimi
+description: Hata raporla
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: step
+    attributes:
+      label: Adım
+      description: Hatayı hangi adımda aldınız?
+      options:
+        - 1 (ön kurulum)
+        - 2 (yeniden başlatma sırasında)
+        - 3 (makine yeniden başlatıldıktan sonra yapılan son kurulum)
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Hata ekranı
+      description: Hata aldığınız andaki ekran görüntüsü nedir?
+      placeholder: Ekran görüntüsünü kopyala/yapıştır yapın.
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Windows sürümü
+      description: Tam olarak hangi Windows sürümünü kullanıyorsunuz?
+      placeholder: |
+        - "Ayarlar → Sistem → Hakkında" ekranına girin
+        - "Windows özelliklerini" kopyalayın.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Ayrıntılar
+      description: Eklemek istediğiniz bir açıklama var mı?
+      placeholder: Ek açıklamalar
