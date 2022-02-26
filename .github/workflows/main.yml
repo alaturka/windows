@@ -1,0 +1,35 @@
+name: Windows
+on:
+  push:
+    branches: [main, next]
+    paths:    ['**.ps1', '.local/**']
+  pull_request:
+    branches: [next]
+
+jobs:
+  main:
+    runs-on: windows-latest
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v2.4.0
+
+      # Cache restoring issues: https://github.com/actions/cache/issues/198
+      - name: 📝 Cache
+        id:   cacher
+        uses: actions/cache@v2
+        with:
+          path: 'C:\Program Files\WindowsPowerShell\Modules'
+          key:  ${{ runner.os }}-PSScriptAnalyzer
+
+      - name:  🔧 Setup
+        if:    steps.cacher.outputs.cache-hit != 'true'
+        shell: powershell
+        run:   .local/bin/setup.ps1
+
+      - name:  🔎 Check
+        shell: powershell
+        run:   .local/bin/check.ps1
+
+      - name:  🔬 Test
+        shell: powershell
+        run:   .local/bin/test.ps1

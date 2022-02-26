@@ -1,0 +1,299 @@
+extension = ".ps1"
+
+# --- app
+[[symbols]]
+	symbol  = "app/classroom"
+
+# --- kernel
+[[symbols]]
+	symbol  = "kernel/assertHasCommand"
+[[symbols]]
+	symbol  = "kernel/assertHasDir"
+[[symbols]]
+	symbol  = "kernel/assertHasFile"
+[[symbols]]
+	symbol  = "kernel/backslashify"
+[[symbols]]
+	symbol  = "kernel/basename"
+[[symbols]]
+	symbol  = "kernel/basenameWithoutExtension"
+[[symbols]]
+	symbol  = "kernel/capture"
+[[symbols]]
+	symbol  = "kernel/dirname"
+[[symbols]]
+	symbol  = "kernel/ensureInPath"
+[[symbols]]
+	symbol  = "kernel/extname"
+[[symbols]]
+	symbol  = "kernel/fullpath"
+[[symbols]]
+	symbol  = "kernel/geturl"
+[[symbols]]
+	symbol  = "kernel/getvar"
+[[symbols]]
+	symbol  = "kernel/mkdirp"
+[[symbols]]
+	symbol  = "kernel/relpath"
+[[symbols]]
+	symbol  = "kernel/rmrf"
+[[symbols]]
+	symbol  = "kernel/testHasCommand"
+[[symbols]]
+	symbol  = "kernel/testIsPathInside"
+[[symbols]]
+	symbol  = "kernel/testurl"
+[[symbols]]
+	symbol  = "kernel/ui"
+[[symbols]]
+	symbol  = "kernel/urlpath"
+
+# --- git
+[[symbols]]
+	symbol  = "git/getGitCurrentBranch"
+[[symbols]]
+	symbol  = "git/getGitDescription"
+[[symbols]]
+	symbol  = "git/initializeGitRepository"
+[[symbols]]
+	symbol  = "git/resolveGitRepository"
+[[symbols]]
+	symbol  = "git/syncGitRepository"
+# --- invoke
+[[symbols]]
+	symbol  = "invoke/invokeBlock"
+[[symbols]]
+	symbol  = "invoke/invokeBlockWithRetry"
+[[symbols]]
+	symbol  = "invoke/invokeNative"
+[[symbols]]
+	symbol  = "invoke/invokeNativeWithSpinner"
+[[symbols]]
+	symbol  = "invoke/invokeRemote"
+# --- l10n
+[[symbols]]
+	symbol  = "l10n/i18n"
+[[symbols]]
+	symbol  = "l10n/messages"
+# --- lfh
+[[symbols]]
+	symbol  = "lfh/initializeLFH"
+[[symbols]]
+	symbol  = "lfh/resolveLFH"
+[[symbols]]
+	symbol  = "lfh/resolveLFHSourceFromURL"
+[[symbols]]
+	symbol  = "lfh/testHasLFH"
+# --- main
+[[symbols]]
+	symbol  = "main/getInvokedPath"
+[[symbols]]
+	symbol  = "main/prelude"
+[[symbols]]
+	symbol  = "main/progname"
+[[symbols]]
+	symbol  = "main/run"
+[[symbols]]
+	symbol  = "main/syncSelf"
+[[symbols]]
+	symbol  = "main/strict"
+[[symbols]]
+	symbol  = "main/testIsInvokedByPath"
+# --- scoop
+[[symbols]]
+	symbol  = "scoop/installExistingPackage"
+[[symbols]]
+	symbol  = "scoop/installMissingPackage"
+[[symbols]]
+	symbol  = "scoop/joinPathPackage"
+[[symbols]]
+	symbol  = "scoop/testHasPackageBucket"
+[[symbols]]
+	symbol  = "scoop/testHasPackage"
+# --- windows
+[[symbols]]
+	symbol  = "windows/assertAdminTerminal"
+[[symbols]]
+	symbol  = "windows/assertExecutionPolicy"
+[[symbols]]
+	symbol  = "windows/assertNetConnectivity"
+[[symbols]]
+	symbol  = "windows/assertOSSensible"
+[[symbols]]
+	symbol  = "windows/enableWindowsOptionalFeature"
+[[symbols]]
+	symbol  = "windows/getWindowsOptionalFeature"
+[[symbols]]
+	symbol  = "windows/reboot"
+[[symbols]]
+	symbol  = "windows/testHasWindowsOptionalFeature"
+[[symbols]]
+	symbol  = "windows/testIsAdmin"
+[[symbols]]
+	symbol  = "windows/testIsWindowsName"
+# --- wsl
+[[symbols]]
+	symbol  = "wsl/assertWSLReady"
+[[symbols]]
+	symbol  = "wsl/invokeWSLFromStdin"
+[[symbols]]
+	symbol  = "wsl/testCanWSL1"
+[[symbols]]
+	symbol  = "wsl/testCanWSL2"
+[[symbols]]
+	symbol  = "wsl/testHasWSLDistribution"
+
+# collections {{{
+[[symbols]]
+	symbol  = "classroom"
+	depends = [
+		"app/classroom",
+	]
+[[symbols]]
+	symbol  = "l10n"
+	depends = [
+		"l10n/i18n",
+		"l10n/messages",
+	]
+[[symbols]]
+	symbol  = "prelude"
+	depends = [
+		"main/strict",
+		"main/prelude",
+	]
+[[symbols]]
+	symbol  = "functions"
+	depends = [
+		"prelude",
+		"l10n",
+
+		# --- kernel
+		"kernel/assertHasCommand",
+		"kernel/assertHasDir",
+		"kernel/assertHasFile",
+		"kernel/backslashify",
+		"kernel/basename",
+		"kernel/basenameWithoutExtension",
+		"kernel/capture",
+		"kernel/dirname",
+		"kernel/ensureInPath",
+		"kernel/extname",
+		"kernel/fullpath",
+		"kernel/geturl",
+		"kernel/getvar",
+		"kernel/mkdirp",
+		"kernel/relpath",
+		"kernel/rmrf",
+		"kernel/testHasCommand",
+		"kernel/testIsPathInside",
+		"kernel/testurl",
+		"kernel/ui",
+		"kernel/urlpath",
+
+		# --- git
+		"git/getGitCurrentBranch",
+		"git/getGitDescription",
+		"git/initializeGitRepository",
+		"git/resolveGitRepository",
+		"git/syncGitRepository",
+		"git/testGitRepository",
+		# --- invoke
+		"invoke/invokeBlock",
+		"invoke/invokeBlockWithRetry",
+		"invoke/invokeNative",
+		"invoke/invokeNativeWithSpinner",
+		"invoke/invokeRemote",
+		# --- lfh
+		"lfh/initializeLFH",
+		"lfh/resolveLFH",
+		"lfh/resolveLFHSourceFromURL",
+		"lfh/testHasLFH",
+		# --- main
+		"main/progname",
+		"main/run",
+		"main/syncSelf",
+	        "main/testIsInvokedByPath",
+		# --- scoop
+		"scoop/installExistingPackage",
+		"scoop/installMissingPackage",
+		"scoop/joinPathPackage",
+		"scoop/testHasPackageBucket",
+		"scoop/testHasPackage",
+		# --- windows
+		"windows/assertAdminTerminal",
+		"windows/assertExecutionPolicy",
+		"windows/assertNetConnectivity",
+		"windows/assertOSSensible",
+		"windows/enableWindowsOptionalFeature",
+		"windows/getWindowsOptionalFeature",
+		"windows/reboot",
+		"windows/testHasWindowsOptionalFeature",
+		"windows/testIsAdmin",
+		"windows/testIsWindowsName",
+		# --- wsl
+		"wsl/assertWSLReady",
+		"wsl/invokeWSLFromStdin",
+		"wsl/testCanWSL2",
+		"wsl/testHasWSLDistribution",
+	]
+[[symbols]]
+	symbol  = "bootstrap"
+	depends = [
+		"prelude",
+		"l10n",
+
+		# --- kernel
+		"kernel/assertHasCommand",
+		"kernel/assertHasDir",
+		"kernel/basename",
+		"kernel/basenameWithoutExtension",
+		"kernel/capture",
+		"kernel/dirname",
+		"kernel/ensureInPath",
+		"kernel/fullpath",
+		"kernel/mkdirp",
+		"kernel/rmrf",
+		"kernel/testHasCommand",
+		"kernel/ui",
+		"kernel/urlpath",
+
+		# --- git
+		"git/initializeGitRepository",
+		"git/testGitRepository",
+		# --- invoke
+		"invoke/invokeBlock",
+		"invoke/invokeBlockWithRetry",
+		"invoke/invokeNative",
+		"invoke/invokeRemote",
+		# --- lfh
+		"lfh/initializeLFH",
+		"lfh/resolveLFH",
+		"lfh/resolveLFHSourceFromURL",
+		"lfh/testHasLFH",
+		# --- main
+		"main/progname",
+		# --- scoop
+		"scoop/installMissingPackage",
+		"scoop/joinPathPackage",
+		"scoop/testHasPackageBucket",
+		"scoop/testHasPackage",
+		# --- windows
+		"windows/assertAdminTerminal",
+		"windows/assertExecutionPolicy",
+		"windows/assertNetConnectivity",
+		"windows/assertOSSensible",
+		"windows/enableWindowsOptionalFeature",
+		"windows/getWindowsOptionalFeature",
+		"windows/reboot",
+		"windows/testIsAdmin",
+		"windows/testIsWindowsName",
+		# --- wsl
+		"wsl/assertWSLReady",
+		"wsl/testCanWSL2",
+
+		# -- classroom
+		"classroom",
+	]
+# }}}
+
+# vim: set foldmethod=marker:

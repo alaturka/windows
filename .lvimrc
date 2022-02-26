@@ -1,0 +1,11 @@
+" Enable localvimrc with https://github.com/embear/vim-localvimrc
+
+function! s:timestamp()
+	if &modified
+		let l:save_view = winsaveview()
+		%s/\(\$Date:\)[^$]*\(\$\)/\=submatch(1) . ' ' . strftime('%d-%m-%Y %H:%M:%S') . submatch(2)/ge
+		call winrestview(l:save_view)
+	endif
+endfunction
+
+autocmd! BufWritePre **/bootstrap/* :call s:timestamp()

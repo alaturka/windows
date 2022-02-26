@@ -1,0 +1,44 @@
+[
+  {
+    "source": "libexec/bootstrap/classroom.ps1",
+    "series": [
+      {
+        "directive": "... src bootstrap\n",
+        "insertion": {
+          "before": 474,
+          "after": 200,
+          "signature": "    [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)\n",
+          "digest": "85f9289bdea487e45136fd64a638b346419ea4dfe0e2680b8bce61289120f8cc"
+        }
+      }
+    ]
+  },
+  {
+    "source": "lib/classroom.ps1",
+    "series": [
+      {
+        "directive": "... src classroom\n",
+        "insertion": {
+          "before": 5,
+          "after": 15,
+          "signature": "    Kernel       = @{ Source = 'FID_LXSS_KERNEL'; Target = 'C:\\Windows\\System32\\lxss\\tools\\kernel' }\n",
+          "digest": "ecf0eed08dc4b0af514f38b216e274fa934e19b421ebff89ff133d39f9fc350b"
+        }
+      }
+    ]
+  },
+  {
+    "source": "lib/functions.ps1",
+    "series": [
+      {
+        "directive": "... src functions\n",
+        "insertion": {
+          "before": 624,
+          "after": 465,
+          "signature": "# Adapted from https://gist.github.com/yoav-lavi/1253321d968db7f52d1a77ac48e3ff96\n",
+          "digest": "4552aa294609a3edfa07220ed34165e77f0ed12a1b4dc1102566e1cfbd6e8b50"
+        }
+      }
+    ]
+  }
+]

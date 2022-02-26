@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: Classroom for Programming Learning - Windows Part
+message: >-
+  If you use any part of this software suite, please
+  cite it as below.
+type: software
+authors:
+  - given-names: Recai
+    family-names: Oktaş
+    email: roktas@gmail.com
+    orcid: 'https://orcid.org/0000-0003-3282-3549'
+date-released: 2022-01-30
