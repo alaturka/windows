@@ -101,6 +101,8 @@ extension = ".ps1"
 	symbol  = "main/testIsInvokedByPath"
 # --- scoop
 [[symbols]]
+	symbol  = "scoop/getBrokenPackages"
+[[symbols]]
 	symbol  = "scoop/installExistingPackage"
 [[symbols]]
 	symbol  = "scoop/installMissingPackage"
@@ -214,6 +216,7 @@ extension = ".ps1"
 		"main/syncSelf",
 	        "main/testIsInvokedByPath",
 		# --- scoop
+		"scoop/getBrokenPackages",
 		"scoop/installExistingPackage",
 		"scoop/installMissingPackage",
 		"scoop/joinPathPackage",
@@ -273,6 +276,7 @@ extension = ".ps1"
 		# --- main
 		"main/progname",
 		# --- scoop
+		"scoop/getBrokenPackages",
 		"scoop/installMissingPackage",
 		"scoop/joinPathPackage",
 		"scoop/testHasPackageBucket",

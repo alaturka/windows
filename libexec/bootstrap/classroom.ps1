@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 27-02-2022 01:58:04$'
+    ID             = '$Date: 08-03-2022 01:14:01$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -518,6 +518,19 @@ function progname($path) {
     [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)
 }
 
+function getBrokenPackages {
+    $installed = Get-ChildItem -Directory $(Join-Path $HOME 'scoop' | Join-Path -ChildPath 'apps') -Name
+
+    foreach ($package in $installed) {
+        if ($package -eq 'scoop') { continue }
+
+        scoop info $package *>$null
+        if (($LastExitCode -ne 0) -or @(scoop info $package 6>$null | Select-String -pattern 'Installed: No').Count -eq 1) {
+            $package
+        }
+    }
+}
+
 function installMissingPackage- {
     param (
         [Parameter(Mandatory)] [string] $name,
@@ -717,7 +730,7 @@ $Windows = @{
     Bootstrap = 'https://get.windows.alaturka.dev'
 }
 
-# --- Function
+# --- Functions
 
 # KEEP THIS ASCII
 
@@ -726,8 +739,8 @@ $(if ($PSCulture -eq 'tr-TR') { ConvertFrom-StringData -StringData @'
     Activating Windows Subsystem for Linux Version 1     = Windows Linux Alt Sistemi Versiyon 1 aktive ediliyor
     Branch                                               = Dal
     Build                                                = Uretim
-    Classroom Bootstraper                                = Classroom Onyukleyici
     Classroom Bootstrap failed.                          = Classroom On Yukleme Basarisiz.
+    Classroom Bootstraper                                = Classroom Onyukleyici
     Classroom files                                      = Classroom dosyalari
     Classroom files package not installed                = Classroom dosya paketi kurulu degil
     Classroom initialization failed                      = Classroom ilklenmesi basarisiz
@@ -736,18 +749,21 @@ $(if ($PSCulture -eq 'tr-TR') { ConvertFrom-StringData -StringData @'
     Initializing Classroom                               = Classroom ilkleniyor
     Initializing LFH Tree                                = LFH dizin agaci ilkleniyor
     Initializing Local File Hierarchy                    = Lokal Dosya Sistemi ilkleniyor
-    Initializing package manager                         = Paket yoneticisi ilkleniyor
     Initializing Windows Subsystem for Linux Version 2   = Windows Linux Alt Sistemi Versiyon 2 ilkleniyor
+    Initializing package manager                         = Paket yoneticisi ilkleniyor
     Installing package manager                           = Paket yoneticisi kuruluyor
     Kernel update file for WSL not found                 = WSL icin kernel guncelleme dosyasi bulunamadi
     Nothing done.                                        = Herhangi bir islem yapilmadi.
+    Removing bucket: {0}                                 = Paket deposu kaldiriliyor: {0}
     Removing possible bogus repository: {0}              = Hasarli olmasi muhtemel depo siliniyor: {0}
+    Resetting package manager                            = Paket yoneticisi sifirlaniyor
     Skipping Windows Terminal installation on Windows 11 = Windows 11 uzerinde Windows Terminal kurulumu atlandi
+    Uninstalling broken package: {0}                     = Bozuk paket kaldiriliyor: {0}
     Updating package index                               = Paket indeksi yenileniyor
 
-    PLEASE RETRY OR, REPORT IF THE ISSUE PERSISTS!                     = ISLEMI TEKRAR EDIN VEYA SORUN DEVAM EDIYORSA RAPORLAYIN!
-    COMPLETE THE INSTALLATION WITH THE FOLLOWING COMMAND AFTER REBOOT: = BILGISAYAR BASLADIGINDA KURULUMU ASAGIDAKI KOMUTLA TAMAMLAYIN:
-    REBOOT REQUIRED, PLEASE CONFIRM THE OPERATION!                     = BILGISAYAR YENIDEN BASLATILMALI, LUTFEN ISLEMI ONAYLAYIN!
+    COMPLETE THE INSTALLATION WITH THE FOLLOWING COMMAND AFTER REBOOT:                 = BILGISAYAR BASLADIGINDA KURULUMU ASAGIDAKI KOMUTLA TAMAMLAYIN:
+    REBOOT REQUIRED, PLEASE CONFIRM THE OPERATION!                                     = BILGISAYAR YENIDEN BASLATILMALI, LUTFEN ISLEMI ONAYLAYIN!
+    THIS MIGHT BE A TEMPORARY FAILURE. PLEASE RETRY AND, REPORT IF THE ISSUE PERSISTS! = BU GECICI BIR SORUN OLABILIR. LUTFEN ISLEMI TEKRAR EDIN, SORUN HALA DEVAM EDIYORSA RAPORLAYIN!
 '@}) | importTranslations
 
 function deployClassroom {
@@ -962,7 +978,7 @@ function installScoop {
     $step = _ 'Installing package manager'
 
     if (testHasCommand 'scoop') {
-        wontdo($step)
+        if (testScoopHealth) { wontdo($step) } else { resetScoop }
         return
     }
 
@@ -982,6 +998,41 @@ function installWindowsTerminal {
     installMissingPackage -Name 'Visual C++ Redistributable 2019' -Package 'vcredist2019'
 }
 
+function resetScoop {
+    $step = _ 'Resetting package manager'
+
+    $brokens = getBrokenPackages
+
+    if (!$brokens) {
+        wontdo($step)
+        return
+    }
+
+    willdo($step)
+
+    foreach ($broken in $brokens) {
+        Write-Verbose (_ 'Uninstalling broken package: {0}' $broken)
+        exec scoop uninstall $broken
+    }
+
+    # Also remove buckets to avoid stale bucket indexes
+
+    foreach ($bucket in $Buckets.GetEnumerator()) {
+        if (testHasPackageBucket $bucket.Name) {
+            Write-Verbose (_ 'Removing bucket: {0}' $bucket.Name)
+            exec scoop bucket rm $bucket.Name
+        }
+    }
+}
+
+function testScoopHealth {
+    if (getBrokenPackages) {
+        return $false
+    }
+
+    $true
+}
+
 function tweakScoop {
     # Have some packages ready for the future
     safeexec scoop install gsudo innounp dark
@@ -993,6 +1044,15 @@ function tweakScoop {
     Add-MpPreference -ExclusionPath $(Join-Path $HOME 'scoop'),$(Join-Path $Env:ProgramData 'scoop')
     # Enable long path support
     Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Value 1 -ErrorAction SilentlyContinue
+}
+
+function updateScoop {
+    $step = _ 'Updating packages'
+
+    willdo($step)
+
+    # Using COMSPEC due to the scoop bugs
+    scoop update -q # invoke without a wrapper since scoop always return error somehow
 }
 
 # --- Main
@@ -1088,6 +1148,7 @@ Requires a premissive ExecutionPolicy:
         installAria2
         installGit
         initializeScoop
+        updateScoop
         installWindowsTerminal
 
         installClassroomFiles
@@ -1105,7 +1166,7 @@ Requires a premissive ExecutionPolicy:
         notice ''
         fail   (_ 'Classroom Bootstrap failed.')
         notice ''
-        notice (_ 'PLEASE RETRY OR, REPORT IF THE ISSUE PERSISTS!')
+        notice (_ 'THIS MIGHT BE A TEMPORARY FAILURE. PLEASE RETRY AND, REPORT IF THE ISSUE PERSISTS!')
         notice ''
         notice "`thttps://github.com/alaturka/windows/issues/new/choose"
     }

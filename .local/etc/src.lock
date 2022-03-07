@@ -6,9 +6,9 @@
         "directive": "... src bootstrap\n",
         "insertion": {
           "before": 474,
-          "after": 200,
+          "after": 213,
           "signature": "    [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)\n",
-          "digest": "85f9289bdea487e45136fd64a638b346419ea4dfe0e2680b8bce61289120f8cc"
+          "digest": "2609bc5aef18f979dfdc47a1e1e2b826cbb6172b6b73374e93a3b6b4d6e33e42"
         }
       }
     ]
@@ -34,9 +34,9 @@
         "directive": "... src functions\n",
         "insertion": {
           "before": 624,
-          "after": 465,
+          "after": 478,
           "signature": "# Adapted from https://gist.github.com/yoav-lavi/1253321d968db7f52d1a77ac48e3ff96\n",
-          "digest": "4552aa294609a3edfa07220ed34165e77f0ed12a1b4dc1102566e1cfbd6e8b50"
+          "digest": "64da4d451b3c77972e9933d5c8c8eab0ced940f0a91347328ce725632af23d07"
         }
       }
     ]

@@ -5,6 +5,7 @@
         'PSAvoidUsingInvokeExpression',
         'PSAvoidUsingPositionalParameters',
         'PSAvoidUsingWriteHost',
+        'PSPossibleIncorrectUsageOfRedirectionOperator'
         'PSUseApprovedVerbs',
         'PSUseBOMForUnicodeEncodedFile',
         'PSUseDeclaredVarsMoreThanAssignments'
