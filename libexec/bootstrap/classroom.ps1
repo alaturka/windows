@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 08-03-2022 01:14:01$'
+    ID             = '$Date: 08-03-2022 21:14:57$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -1145,10 +1145,10 @@ Requires a premissive ExecutionPolicy:
         initialize
 
         installScoop
+        updateScoop
         installAria2
         installGit
         initializeScoop
-        updateScoop
         installWindowsTerminal
 
         installClassroomFiles
