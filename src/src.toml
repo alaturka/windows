@@ -276,7 +276,6 @@ extension = ".ps1"
 		# --- main
 		"main/progname",
 		# --- scoop
-		"scoop/getBrokenPackages",
 		"scoop/installMissingPackage",
 		"scoop/joinPathPackage",
 		"scoop/testHasPackageBucket",

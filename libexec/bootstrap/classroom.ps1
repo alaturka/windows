@@ -520,19 +520,6 @@ function progname($path) {
     [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)
 }
 
-function getBrokenPackages {
-    $installed = Get-ChildItem -Directory $(Join-Path $HOME 'scoop' | Join-Path -ChildPath 'apps') -Name
-
-    foreach ($package in $installed) {
-        if ($package -eq 'scoop') { continue }
-
-        scoop info $package *>$null
-        if (($LastExitCode -ne 0) -or @(scoop info $package 6>$null | Select-String -pattern 'Installed: No').Count -eq 1) {
-            $package
-        }
-    }
-}
-
 function installMissingPackage- {
     param (
         [Parameter(Mandatory)] [string] $name,
@@ -1001,38 +988,15 @@ function installWindowsTerminal {
 }
 
 function resetScoop {
-    $step = _ 'Resetting package manager'
-
-    $brokens = getBrokenPackages
-
-    if (!$brokens) {
-        wontdo($step)
+    $scoop = Join-Path $HOME 'scoop'
+    if (!(Test-Path -Path $scoop -PathType Container)) {
         return
     }
 
-    willdo($step)
+    Write-Verbose (_ 'Resetting package manager')
 
-    foreach ($broken in $brokens) {
-        Write-Verbose (_ 'Uninstalling broken package: {0}' $broken)
-        exec scoop uninstall $broken
-    }
-
-    # Also remove buckets to avoid stale bucket indexes
-
-    foreach ($bucket in $Buckets.GetEnumerator()) {
-        if (testHasPackageBucket $bucket.Name) {
-            Write-Verbose (_ 'Removing bucket: {0}' $bucket.Name)
-            exec scoop bucket rm $bucket.Name
-        }
-    }
-}
-
-function testScoopHealth {
-    if (getBrokenPackages) {
-        return $false
-    }
-
-    $true
+    $dirs = Get-ChildItem -Directory $scoop | Where-Object { $_.Name -ne 'cache' } | %{ $_.FullName }
+    rmrf @dirs
 }
 
 function tweakScoop {
@@ -1048,15 +1012,6 @@ function tweakScoop {
     Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name LongPathsEnabled -Value 1 -ErrorAction SilentlyContinue
 }
 
-function updateScoop {
-    $step = _ 'Updating packages'
-
-    willdo($step)
-
-    # Using COMSPEC due to the scoop bugs
-    scoop update -q # invoke without a wrapper since scoop always return error somehow
-}
-
 # --- Main
 
 function bootstrap {
@@ -1067,21 +1022,17 @@ function bootstrap {
     assertNetConnectivity
 }
 
-function finalize {
-    if ($Script:DoneCount -eq 0) {
-        succeed ''
-        succeed (_ 'Nothing done.')
-    }
+function failure {
+    fail $PSItem.Exception.Message
 
-    if ($Program.RebootRequired) {
-        notice ''
-        notice (_ 'REBOOT REQUIRED, PLEASE CONFIRM THE OPERATION!')
-        notice (_ 'COMPLETE THE INSTALLATION WITH THE FOLLOWING COMMAND AFTER REBOOT:')
-        notice ''
-        notice "`tclassroom install"
+    notice ''
+    fail   (_ 'Classroom Bootstrap failed.')
+    notice ''
+    notice (_ 'THIS MIGHT BE A TEMPORARY FAILURE. PLEASE RETRY AND, REPORT IF THE ISSUE PERSISTS!')
+    notice ''
+    notice "`thttps://github.com/alaturka/windows/issues/new/choose"
 
-        reboot
-    }
+    $global:LastExitCode = 1
 }
 
 function initialize {
@@ -1104,7 +1055,21 @@ function introduce {
     notice "$(_ $Program.Description) - $($Program.ID)"
 }
 
-function shutdown {
+function success {
+    if ($Script:DoneCount -eq 0) {
+        succeed ''
+        succeed (_ 'Nothing done.')
+    }
+
+    if ($Program.RebootRequired) {
+        notice ''
+        notice (_ 'REBOOT REQUIRED, PLEASE CONFIRM THE OPERATION!')
+        notice (_ 'COMPLETE THE INSTALLATION WITH THE FOLLOWING COMMAND AFTER REBOOT:')
+        notice ''
+        notice "`tclassroom install"
+
+        reboot
+    }
 }
 
 # --- Entry
@@ -1139,42 +1104,45 @@ Requires a premissive ExecutionPolicy:
         bootstrap
     }
     catch {
-        fail $PSItem.Exception.Message
-        return
+        return fail $PSItem.Exception.Message
     }
+
+    # Poor man's handling of CTRL-C
+    $didScoopCompleted = $false
 
     try {
         initialize
 
         installScoop
-        updateScoop
         installAria2
         installGit
         initializeScoop
         installWindowsTerminal
-
         installClassroomFiles
-        deployClassroom
-        initializeClassroom
 
-        initializeWSL
-        initializeOptionals
-
-        finalize
+        $didScoopCompleted = $true
     }
     catch {
-        fail $PSItem.Exception.Message
-
-        notice ''
-        fail   (_ 'Classroom Bootstrap failed.')
-        notice ''
-        notice (_ 'THIS MIGHT BE A TEMPORARY FAILURE. PLEASE RETRY AND, REPORT IF THE ISSUE PERSISTS!')
-        notice ''
-        notice "`thttps://github.com/alaturka/windows/issues/new/choose"
+        resetScoop
+        return failure
     }
     finally {
-        shutdown
+        if (!$didScoopCompleted) { resetScoop }
     }
+
+    if (!$didScoopCompleted) { return }
+
+    try {
+        deployClassroom
+        initializeClassroom
+        initializeWSL
+        initializeOptionals
+    }
+    catch {
+        return failure
+    }
+
+    success
 }
 
 main @args
