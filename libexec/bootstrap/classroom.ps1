@@ -964,8 +964,12 @@ function installScoop {
     $step = _ 'Installing package manager'
 
     if (testHasCommand 'scoop') {
-        if (testScoopHealth) { wontdo($step) } else { resetScoop }
-        return
+        if ($Env:CLASSROOM_BOOTSTRAP_AFRESH) {
+            resetScoop
+        } else {
+            wontdo($step)
+            return
+        }
     }
 
     willdo($step)
