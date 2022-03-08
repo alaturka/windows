@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 09-03-2022 01:27:01$'
+    ID             = '$Date: 09-03-2022 02:20:02$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -567,7 +567,7 @@ function joinPathPackage($name) {
 }
 
 function testHasPackageBucket($name) {
-    @(scoop bucket list | Where-Object { $_ -eq $name }).Count -eq 1
+    @(scoop bucket list | Where-Object { $_.Name -eq $name }).Count -eq 1
 }
 
 function testHasPackage($name) {

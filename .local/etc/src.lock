@@ -8,7 +8,7 @@
           "before": 476,
           "after": 200,
           "signature": "    [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)\n",
-          "digest": "998378a3d63bb1f6c6e09aaaff28140e41a2f27f49c8e70f3588f2d00f68468c"
+          "digest": "36eb8b88febc3de9e476459fdbc4ce88133865980a51bbf09aa7580c492ced79"
         }
       }
     ]
@@ -36,7 +36,7 @@
           "before": 626,
           "after": 478,
           "signature": "# Adapted from https://gist.github.com/yoav-lavi/1253321d968db7f52d1a77ac48e3ff96\n",
-          "digest": "a298c34a2df6fc9ec268bda285e8e16538afe60bad05d48b4a893e0c22cd4242"
+          "digest": "44b419e4df40a2803cf7df19d7c206b5d19e5c5a21a0b2f3152c2201aee617f3"
         }
       }
     ]
