@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 09-03-2022 02:20:02$'
+    ID             = '$Date: 09-03-2022 02:31:17$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -996,7 +996,7 @@ function resetScoop {
 
     Write-Verbose (_ 'Resetting package manager')
 
-    $dirs = Get-ChildItem -Directory $scoop | Where-Object { $_.Name -ne 'cache' } | %{ $_.FullName }
+    $dirs = Get-ChildItem -Directory $scoop | Where-Object { $_.Name -ne 'cache' } | ForEach-Object { $_.FullName }
     rmrf @dirs
 }
 
