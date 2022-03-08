@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 08-03-2022 21:14:57$'
+    ID             = '$Date: 09-03-2022 01:27:01$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -743,12 +743,9 @@ $(if ($PSCulture -eq 'tr-TR') { ConvertFrom-StringData -StringData @'
     Installing package manager                           = Paket yoneticisi kuruluyor
     Kernel update file for WSL not found                 = WSL icin kernel guncelleme dosyasi bulunamadi
     Nothing done.                                        = Herhangi bir islem yapilmadi.
-    Removing bucket: {0}                                 = Paket deposu kaldiriliyor: {0}
     Removing possible bogus repository: {0}              = Hasarli olmasi muhtemel depo siliniyor: {0}
     Resetting package manager                            = Paket yoneticisi sifirlaniyor
     Skipping Windows Terminal installation on Windows 11 = Windows 11 uzerinde Windows Terminal kurulumu atlandi
-    Uninstalling broken package: {0}                     = Bozuk paket kaldiriliyor: {0}
-    Updating package index                               = Paket indeksi yenileniyor
 
     COMPLETE THE INSTALLATION WITH THE FOLLOWING COMMAND AFTER REBOOT:                 = BILGISAYAR BASLADIGINDA KURULUMU ASAGIDAKI KOMUTLA TAMAMLAYIN:
     REBOOT REQUIRED, PLEASE CONFIRM THE OPERATION!                                     = BILGISAYAR YENIDEN BASLATILMALI, LUTFEN ISLEMI ONAYLAYIN!
