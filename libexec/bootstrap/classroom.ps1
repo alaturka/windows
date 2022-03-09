@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 09-03-2022 02:31:17$'
+    ID             = '$Date: 09-03-2022 12:49:32$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -417,30 +417,6 @@ function cexec { invokeNative -Com @args }
 function safecexec { invokeNative -Com -Safe @args }
 function trueexec { try { invokeNative @args *>$null; return $true } catch { return $false } }
 
-function invokeRemote {
-    param (
-        [Parameter(Mandatory)] [string] $url,
-
-        [Parameter(ValueFromRemainingArguments)] [string[]] $remainings
-    )
-
-    Write-Verbose $url
-
-    try {
-        Set-StrictMode -Off
-
-        # Set TLS1.2
-        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 'Tls12'
-        & $([scriptblock]::Create((Invoke-RestMethod $url))) @remainings
-    }
-    catch {
-        Write-Warning "$_"
-        throw (_ 'Invocation from remote failed: {0}' $url)
-    }
-}
-
-function urlrun { invokeRemote @args }
-
 function initializeLFH {
     param (
         [Parameter(Mandatory)] [string] $root,
@@ -518,6 +494,22 @@ function testHasLFH {
 
 function progname($path) {
     [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)
+}
+
+function urlrun($url) {
+    Write-Verbose $url
+
+    try {
+        Set-StrictMode -Off
+
+        # Set TLS1.2
+        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 'Tls12'
+        & $([scriptblock]::Create((Invoke-RestMethod $url))) @args
+    }
+    catch {
+        Write-Warning "$_"
+        throw (_ 'Invocation from remote failed: {0}' $url)
+    }
 }
 
 function installMissingPackage- {
@@ -974,7 +966,7 @@ function installScoop {
 
     willdo($step)
 
-    urlrun 'get.scoop.sh'
+    urlrun 'get.scoop.sh' -RunAsAdmin
 }
 
 function installWindowsTerminal {

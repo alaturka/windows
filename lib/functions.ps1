@@ -684,30 +684,6 @@ function invokeNativeWithSpinner {
 
 function longexec { invokeNativeWithSpinner @args }
 
-function invokeRemote {
-    param (
-        [Parameter(Mandatory)] [string] $url,
-
-        [Parameter(ValueFromRemainingArguments)] [string[]] $remainings
-    )
-
-    Write-Verbose $url
-
-    try {
-        Set-StrictMode -Off
-
-        # Set TLS1.2
-        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 'Tls12'
-        & $([scriptblock]::Create((Invoke-RestMethod $url))) @remainings
-    }
-    catch {
-        Write-Warning "$_"
-        throw (_ 'Invocation from remote failed: {0}' $url)
-    }
-}
-
-function urlrun { invokeRemote @args }
-
 function initializeLFH {
     param (
         [Parameter(Mandatory)] [string] $root,
@@ -816,6 +792,22 @@ function testIsInvokedByPath {
     (
         ($position -split ' ')[0] -eq ([IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name))
     )
+}
+
+function urlrun($url) {
+    Write-Verbose $url
+
+    try {
+        Set-StrictMode -Off
+
+        # Set TLS1.2
+        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 'Tls12'
+        & $([scriptblock]::Create((Invoke-RestMethod $url))) @args
+    }
+    catch {
+        Write-Warning "$_"
+        throw (_ 'Invocation from remote failed: {0}' $url)
+    }
 }
 
 function getBrokenPackages {

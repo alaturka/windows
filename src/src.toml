@@ -68,8 +68,6 @@ extension = ".ps1"
 	symbol  = "invoke/invokeNative"
 [[symbols]]
 	symbol  = "invoke/invokeNativeWithSpinner"
-[[symbols]]
-	symbol  = "invoke/invokeRemote"
 # --- l10n
 [[symbols]]
 	symbol  = "l10n/i18n"
@@ -204,7 +202,6 @@ extension = ".ps1"
 		"invoke/invokeBlockWithRetry",
 		"invoke/invokeNative",
 		"invoke/invokeNativeWithSpinner",
-		"invoke/invokeRemote",
 		# --- lfh
 		"lfh/initializeLFH",
 		"lfh/resolveLFH",
@@ -215,6 +212,7 @@ extension = ".ps1"
 		"main/run",
 		"main/syncSelf",
 	        "main/testIsInvokedByPath",
+		"main/urlrun",
 		# --- scoop
 		"scoop/getBrokenPackages",
 		"scoop/installExistingPackage",
@@ -267,7 +265,6 @@ extension = ".ps1"
 		"invoke/invokeBlock",
 		"invoke/invokeBlockWithRetry",
 		"invoke/invokeNative",
-		"invoke/invokeRemote",
 		# --- lfh
 		"lfh/initializeLFH",
 		"lfh/resolveLFH",
@@ -275,6 +272,7 @@ extension = ".ps1"
 		"lfh/testHasLFH",
 		# --- main
 		"main/progname",
+		"main/urlrun",
 		# --- scoop
 		"scoop/installMissingPackage",
 		"scoop/joinPathPackage",
