@@ -32,15 +32,15 @@ body:
       render: text
     validations:
       required: true
-  - type: checkboxes
+  - type: dropdown
     id: retried
     attributes:
       label: Kurulum sayısı
       description: Kurulumu farklı zaman ve ortamlarda bir kaç kez tekrar ettiniz mi?
       options:
-        - label: Evet, en az bir defa tekrar ettim
-        - label: Evet, birden fazla defa tekrar ettim
-        - label: Hayır, tekrar deneme yapmadım (lütfen bu noktada durup kurulumu tekrar edin)
+        - Evet, en az bir defa tekrar ettim
+        - Evet, birden fazla kez tekrar ettim
+        - Hayır, tekrar deneme yapmadım (lütfen bu noktada durup kurulumu tekrar edin)
     validations:
       required: true
   - type: textarea
