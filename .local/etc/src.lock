@@ -5,10 +5,10 @@
       {
         "directive": "... src bootstrap\n",
         "insertion": {
-          "before": 452,
-          "after": 216,
-          "signature": "    [IO.Path]::GetFileNameWithoutExtension($Script:MyInvocation.MyCommand.Name)\n",
-          "digest": "6ddb7dce6d54e2775ab94a921c8c8ee21c7c1ce832f2fde1157293f9dfc97af1"
+          "before": 603,
+          "after": 75,
+          "signature": "    [void]([System.Reflection.Assembly]::LoadWithPartialName(\"System.Drawing\"))\n",
+          "digest": "e96e26742fa51b553c2863caa216d946cd9221e820072f322447b53649fc729b"
         }
       }
     ]

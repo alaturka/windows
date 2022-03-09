@@ -643,6 +643,16 @@ function reboot($message) {
     Restart-Computer -Confirm -Force
 }
 
+function testHasFont($name) {
+    [void]([System.Reflection.Assembly]::LoadWithPartialName("System.Drawing"))
+
+    @(
+        (New-Object System.Drawing.Text.InstalledFontCollection).Families |
+        Select-Object -ExpandProperty Name |
+        Select-String -Pattern $name
+    ).Count -ne 0
+}
+
 function testIsAdmin {
     try {
         $identity  = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -976,7 +986,9 @@ function installWindowsTerminal {
     }
 
     installMissingPackage -Name 'Windows Terminal' -Command 'wt' -Package 'windows-terminal'
-    installMissingPackage -Name 'Cascadia Code Font' -Package 'cascadia-code'
+    if (!(testHasFont 'Cascadia Code')) {
+        installMissingPackage -Name 'Cascadia Code Font' -Package 'cascadia-code'
+    }
     installMissingPackage -Name 'Visual C++ Redistributable 2019' -Package 'vcredist2019'
 }
 

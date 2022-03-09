@@ -126,6 +126,8 @@ extension = ".ps1"
 [[symbols]]
 	symbol  = "windows/reboot"
 [[symbols]]
+	symbol  = "windows/testHasFont"
+[[symbols]]
 	symbol  = "windows/testHasWindowsOptionalFeature"
 [[symbols]]
 	symbol  = "windows/testIsAdmin"
@@ -286,6 +288,7 @@ extension = ".ps1"
 		"windows/enableWindowsOptionalFeature",
 		"windows/getWindowsOptionalFeature",
 		"windows/reboot",
+		"windows/testHasFont",
 		"windows/testIsAdmin",
 		"windows/testIsWindowsName",
 		# --- wsl
