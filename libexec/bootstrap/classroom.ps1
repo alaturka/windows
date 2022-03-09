@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 09-03-2022 12:49:32$'
+    ID             = '$Date: 09-03-2022 14:07:15$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -730,18 +730,19 @@ $(if ($PSCulture -eq 'tr-TR') { ConvertFrom-StringData -StringData @'
     Activating Windows Subsystem for Linux Version 1     = Windows Linux Alt Sistemi Versiyon 1 aktive ediliyor
     Branch                                               = Dal
     Build                                                = Uretim
-    Classroom Bootstrap failed.                          = Classroom On Yukleme Basarisiz.
     Classroom Bootstraper                                = Classroom Onyukleyici
+    Classroom Bootstrap failed.                          = Classroom On Yukleme Basarisiz.
     Classroom files                                      = Classroom dosyalari
     Classroom files package not installed                = Classroom dosya paketi kurulu degil
     Classroom initialization failed                      = Classroom ilklenmesi basarisiz
     Deploying Classroom Windows side                     = Classroom Windows tarafi konuslandiriliyor
     File downloader                                      = Dosya indirme araci
+    Hard resetting package manager                       = Paket yoneticisi tamamen sifirlaniyor
     Initializing Classroom                               = Classroom ilkleniyor
     Initializing LFH Tree                                = LFH dizin agaci ilkleniyor
     Initializing Local File Hierarchy                    = Lokal Dosya Sistemi ilkleniyor
-    Initializing Windows Subsystem for Linux Version 2   = Windows Linux Alt Sistemi Versiyon 2 ilkleniyor
     Initializing package manager                         = Paket yoneticisi ilkleniyor
+    Initializing Windows Subsystem for Linux Version 2   = Windows Linux Alt Sistemi Versiyon 2 ilkleniyor
     Installing package manager                           = Paket yoneticisi kuruluyor
     Kernel update file for WSL not found                 = WSL icin kernel guncelleme dosyasi bulunamadi
     Nothing done.                                        = Herhangi bir islem yapilmadi.
@@ -967,7 +968,7 @@ function installScoop {
 
     if (testHasCommand 'scoop') {
         if ($Env:CLASSROOM_BOOTSTRAP_AFRESH) {
-            resetScoop
+            resetScoopHard
         } else {
             wontdo($step)
             return
@@ -1002,6 +1003,17 @@ function resetScoop {
 
     $dirs = Get-ChildItem -Directory $scoop | Where-Object { $_.Name -ne 'cache' } | ForEach-Object { $_.FullName }
     rmrf @dirs
+}
+
+function resetScoopHard {
+    $scoop = Join-Path $HOME 'scoop'
+    if (!(Test-Path -Path $scoop -PathType Container)) {
+        return
+    }
+
+    Write-Verbose (_ 'Hard resetting package manager')
+
+    rmrf $scoop
 }
 
 function tweakScoop {
