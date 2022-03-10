@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - bootstrap: Improve bootstrapping stage against intermittent errors
+- bootstrap: Assert Home folder name contains only ASCII characters
 
 ### Fixed
 

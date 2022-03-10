@@ -116,6 +116,8 @@ extension = ".ps1"
 [[symbols]]
 	symbol  = "windows/assertExecutionPolicy"
 [[symbols]]
+	symbol  = "windows/assertHomeSensible"
+[[symbols]]
 	symbol  = "windows/assertNetConnectivity"
 [[symbols]]
 	symbol  = "windows/assertOSSensible"
@@ -283,6 +285,7 @@ extension = ".ps1"
 		# --- windows
 		"windows/assertAdminTerminal",
 		"windows/assertExecutionPolicy",
+		"windows/assertHomeSensible",
 		"windows/assertNetConnectivity",
 		"windows/assertOSSensible",
 		"windows/enableWindowsOptionalFeature",

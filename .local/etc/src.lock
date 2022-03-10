@@ -5,10 +5,10 @@
       {
         "directive": "... src bootstrap\n",
         "insertion": {
-          "before": 603,
+          "before": 615,
           "after": 75,
           "signature": "    [void]([System.Reflection.Assembly]::LoadWithPartialName(\"System.Drawing\"))\n",
-          "digest": "e96e26742fa51b553c2863caa216d946cd9221e820072f322447b53649fc729b"
+          "digest": "1b94315b4489e6a0e9cdf7c702dce5ea9dd12f5646a1d068094914b503233354"
         }
       }
     ]
@@ -33,10 +33,10 @@
       {
         "directive": "... src functions\n",
         "insertion": {
-          "before": 626,
+          "before": 629,
           "after": 470,
           "signature": "# Adapted from https://gist.github.com/yoav-lavi/1253321d968db7f52d1a77ac48e3ff96\n",
-          "digest": "3c2e436a4b8dac02de9fe314b5255df36f52ebf3e669bf1a773abf328a8d1f19"
+          "digest": "1d498b0d3a6b041e77f33055498982a4844447fca4712af77899ba51a3a056d5"
         }
       }
     ]

@@ -31,6 +31,10 @@ Vagrant.configure('2') do |config|
   config.vm.define 'classroom', autostart: false do |this|
     this.vm.box   = 'windows/classroom'
 
+    this.vm.provider 'virtualbox' do |virtualbox|
+      virtualbox.gui = true
+    end
+
     this.vm.provision 'shell', inline: <<~'PROVISION'
       [Environment]::SetEnvironmentVariable('Path', 'C:\vagrant\bin;' + $Env:Path, 'User')
     PROVISION
