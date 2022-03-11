@@ -43,6 +43,16 @@ body:
         - Hayır, tekrar deneme yapmadım (lütfen bu noktada durup kurulumu tekrar edin)
     validations:
       required: true
+  - type: dropdown
+    id: faq
+    attributes:
+      label: Kurulum Yardımı
+      description: Kurulumda yaşanan sorunlar hakkında yazılan dokümanı okudunuz mu?
+      options:
+        - 'Evet okudum, sorunum farklı: https://classroom.alaturka.dev/help/install.html'
+        - 'Hayır okumadım, ama şimdi okuyacağım: https://classroom.alaturka.dev/help/install.html'
+    validations:
+      required: true
   - type: textarea
     id: details
     attributes:
