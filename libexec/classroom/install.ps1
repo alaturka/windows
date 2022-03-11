@@ -144,7 +144,9 @@ function initializeLinux {
 
     willdo($step)
 
-    $flags = @()
+    $flags = @(
+        '-pre'
+    )
 
     if ($VerbosePreference -eq 'Continue')            { $flags += ('-verbose') }
     if (![String]::IsNullOrWhiteSpace($Linux.Remote)) { $flags += ('-remote', $Linux.Remote) }
