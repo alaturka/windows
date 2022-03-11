@@ -34,7 +34,7 @@ param (
 $Program = [PSCustomObject]@{
     Name           = 'classroom'
     Description    = 'Classroom Bootstraper'
-    ID             = '$Date: 11-03-2022 01:41:17$'
+    ID             = '$Date: 11-03-2022 16:09:17$'
     IsOffline      = $false
     RebootRequired = $false
 }
@@ -765,6 +765,7 @@ $(if ($PSCulture -eq 'tr-TR') { ConvertFrom-StringData -StringData @'
     COMPLETE THE INSTALLATION WITH THE FOLLOWING COMMAND AFTER REBOOT:                 = BILGISAYAR BASLADIGINDA KURULUMU ASAGIDAKI KOMUTLA TAMAMLAYIN:
     REBOOT REQUIRED, PLEASE CONFIRM THE OPERATION!                                     = BILGISAYAR YENIDEN BASLATILMALI, LUTFEN ISLEMI ONAYLAYIN!
     THIS MIGHT BE A TEMPORARY FAILURE. PLEASE RETRY AND, REPORT IF THE ISSUE PERSISTS! = BU GECICI BIR SORUN OLABILIR. LUTFEN ISLEMI TEKRAR EDIN, SORUN HALA DEVAM EDIYORSA RAPORLAYIN!
+    BEFORE REPORTING THE ISSUE, PLEASE CAREFULLY READ THE INSTALLATION FAQ AT {0}      = HATA RAPORLAMADAN ONCE LUTFEN KURULUM SORUNLARI DOKUMANINI DIKKATLI SEKILDE OKUYUN: {0}'
 '@}) | importTranslations
 
 function deployClassroom {
@@ -1061,6 +1062,9 @@ function failure {
     notice (_ 'THIS MIGHT BE A TEMPORARY FAILURE. PLEASE RETRY AND, REPORT IF THE ISSUE PERSISTS!')
     notice ''
     notice "`thttps://github.com/alaturka/windows/issues/new/choose"
+    notice ''
+    notice (_ 'BEFORE REPORTING THE ISSUE, PLEASE CAREFULLY READ THE INSTALLATION FAQ AT {0}' 'https://classroom.alaturka.dev/help/install.html')
+    notice ''
 
     $global:LastExitCode = 1
 }
