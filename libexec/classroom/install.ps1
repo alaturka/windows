@@ -161,12 +161,8 @@ $Extensions = @(
     'GitHub.classroom',
     'GitHub.github-vscode-theme',
     'GitHub.remotehub',
-    'ms-python.python',
-    'ms-vscode.cpptools-extension-pack',
     'ms-vscode-remote.remote-wsl',
-    'rebornix.Ruby',
     'stkb.rewrap',
-    'xaver.clang-format',
     'yzhang.markdown-all-in-one'
 )
 
